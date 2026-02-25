@@ -7,14 +7,15 @@ import { CustomError } from '../middleware/errorHandler';
 // GET tasks
 const getAllTasks = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const task = await Task.find({});
-    res.status(200).json({ task });
+    const tasks = await Task.find({});
+    res.status(200).json({ tasks });
     return;
   } catch (err) {
     return next(err);
   }
 };
 
+// Get task by ID
 const getTask = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { id } = req.params;

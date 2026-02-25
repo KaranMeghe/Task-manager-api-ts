@@ -12,12 +12,8 @@ const app = express();
 const port = 9998;
 const MONGO_URI = process.env.MONGO_URI as string;
 
+app.use(express.static('./public'));
 app.use(express.json());
-
-app.get('/', (req, res) => {
-  res.send('Hello');
-});
-
 app.use('/api/v1/tasks', taskRouter);
 
 // 404 handler

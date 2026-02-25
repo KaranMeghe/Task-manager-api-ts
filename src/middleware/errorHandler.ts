@@ -1,6 +1,7 @@
 /** @format */
 
 import { Request, Response, NextFunction } from 'express';
+import mongoose from 'mongoose';
 
 export class CustomError extends Error {
   constructor(
@@ -14,6 +15,14 @@ export class CustomError extends Error {
 
 const errorHandler = (err: unknown, req: Request, res: Response, next: NextFunction) => {
   console.error('ERROR HANDLER HIT:', err);
+
+  if (err instanceof mongoose.Error.ValidationError) {
+    return res.status(400).json({
+      message: Object.values(err.errors)
+        .map((val) => val.message)
+        .join(', '),
+    });
+  }
 
   if (err instanceof CustomError) {
     res.status(err.statusCode).json({
