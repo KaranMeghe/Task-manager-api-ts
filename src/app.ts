@@ -5,6 +5,7 @@ import express from 'express';
 import taskRouter from './routes/tasks';
 import connectDB from './db/connect';
 import errorHandler, { CustomError } from './middleware/errorHandler';
+import notFound from './middleware/not-found';
 
 dotenv.config();
 
@@ -17,9 +18,7 @@ app.use(express.json());
 app.use('/api/v1/tasks', taskRouter);
 
 // 404 handler
-app.use((req, res) => {
-  return res.status(404).json({ message: 'Route not found' });
-});
+app.use(notFound);
 
 // Global error handler
 app.use(errorHandler);
